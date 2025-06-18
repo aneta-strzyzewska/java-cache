@@ -2,6 +2,7 @@ package com.javacache.main;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import com.javacache.main.model.Entry;
@@ -22,26 +23,35 @@ public class MemoryCache {
 		return INSTANCE;
 	}
 
-	public String get(String key) {
+	public Optional<String> get(String key) {
 		Entry entry = this.cache.get(key);
-		if (entry != null && (entry.timestamp().plus(Duration.ofMillis(entry.ttl()))).isBefore(ZonedDateTime.now())) {
-			return entry.value();
+		if (entry != null && isValid(entry)) {
+			return Optional.of(entry.value());
 		} else {
 			this.invalidate(key);
-			return null;
+			return Optional.empty();
 		}
 	}
 
-	public String set(String key, String value) {
+	public Optional<String> set(String key, String value) {
 		return this.set(key, value, 60_000);
 	}
 
-	public String set(String key, String value, int ttl) {
-		Entry entry = this.cache.putIfAbsent(key, new Entry(value, ttl, ZonedDateTime.now()));
-		return entry == null ? null : entry.value();
+	public Optional<String> set(String key, String value, int ttl) {
+		Entry entry = this.cache.putIfAbsent(
+				key,
+				new Entry(value, ttl, ZonedDateTime.now())
+			);
+		return Optional.ofNullable(entry == null ? null : entry.value());
 	}
 
 	private void invalidate(String key) {
 		this.cache.remove(key);
+	}
+
+	private boolean isValid(Entry entry) {
+		return entry
+				.timestamp().plus(Duration.ofMillis(entry.ttl()))
+				.isAfter(ZonedDateTime.now());
 	}
 }

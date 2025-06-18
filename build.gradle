@@ -20,6 +20,10 @@ dependencies {
     testImplementation libs.org.junit.jupiter.junit.jupiter
 }
 
+test {
+    useJUnitPlatform()
+}
+
 group = 'java-cache'
 version = '0.0.1'
 description = 'JavaCache'
