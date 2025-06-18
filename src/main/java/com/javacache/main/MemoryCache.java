@@ -5,8 +5,6 @@ import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
-import com.javacache.main.model.Entry;
-
 public class MemoryCache {
 
 	private static MemoryCache INSTANCE;
@@ -54,4 +52,7 @@ public class MemoryCache {
 				.timestamp().plus(Duration.ofMillis(entry.ttl()))
 				.isAfter(ZonedDateTime.now());
 	}
+
+	private record Entry(String value, int ttl, ZonedDateTime timestamp) {}
+
 }
