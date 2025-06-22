@@ -1,4 +1,4 @@
-package com.javacache.main;
+package com.javacache.app;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;

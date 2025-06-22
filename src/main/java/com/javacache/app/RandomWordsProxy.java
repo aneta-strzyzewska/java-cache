@@ -1,4 +1,4 @@
-package com.javacache.main;
+package com.javacache.app;
 
 import java.io.IOException;
 import java.net.URI;

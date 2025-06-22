@@ -1,4 +1,4 @@
-package com.javacache.main;
+package com.javacache.app;
 
 import org.apache.cxf.endpoint.Server;
 import org.apache.cxf.jaxrs.JAXRSServerFactoryBean;

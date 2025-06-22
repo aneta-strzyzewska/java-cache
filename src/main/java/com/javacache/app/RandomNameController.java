@@ -1,4 +1,4 @@
-package com.javacache.main;
+package com.javacache.app;
 
 import jakarta.ws.rs.*;
 
