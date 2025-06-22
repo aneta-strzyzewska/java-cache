@@ -1,8 +1,6 @@
 package com.javacache.main;
 
-import jakarta.ws.rs.GET;
-import jakarta.ws.rs.Path;
-import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.*;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -19,10 +17,15 @@ public class RandomNameController {
 	}
 
 	@GET
-	@Path("random-name")
+	@Path("random-name/{key}")
 	@Produces("application/json")
-	public String getRandomName() throws IOException, InterruptedException {
-		String key = "randomWordJson";
+	public String getRandomName(
+			@PathParam("key") String key,
+			@QueryParam("skipCache") boolean skipCache
+	) throws IOException, InterruptedException {
+		if(skipCache) {
+			return proxy.getRandomWord();
+		}
 		Optional<String> data = cache.get(key);
 
 		if(data.isEmpty()) {
