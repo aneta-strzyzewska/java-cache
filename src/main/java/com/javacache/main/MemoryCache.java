@@ -41,6 +41,10 @@ public class MemoryCache {
 		return Optional.ofNullable(entry == null ? null : entry.value());
 	}
 
+	public void clear() {
+		this.cache.clear();
+	}
+
 	private void invalidate(String key) {
 		this.cache.remove(key);
 	}

@@ -26,8 +26,8 @@ public class RandomNameController {
 		if(skipCache) {
 			return proxy.getRandomWord();
 		}
-		Optional<String> data = cache.get(key);
 
+		Optional<String> data = cache.get(key);
 		if(data.isEmpty()) {
 			String wordJson = proxy.getRandomWord();
 			cache.set(key, wordJson);
