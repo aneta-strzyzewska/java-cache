@@ -1,7 +1,5 @@
 package com.javacache.main;
 
-import java.time.Duration;
-import java.time.ZonedDateTime;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -38,7 +36,7 @@ public class MemoryCache {
 	public Optional<String> set(String key, String value, int ttl) {
 		Entry entry = this.cache.putIfAbsent(
 				key,
-				new Entry(value, ttl, ZonedDateTime.now())
+				new Entry(value, ttl, System.currentTimeMillis())
 			);
 		return Optional.ofNullable(entry == null ? null : entry.value());
 	}
@@ -48,11 +46,9 @@ public class MemoryCache {
 	}
 
 	private boolean isValid(Entry entry) {
-		return entry
-				.timestamp().plus(Duration.ofMillis(entry.ttl()))
-				.isAfter(ZonedDateTime.now());
+		return entry.timestamp() + entry.ttl() > System.currentTimeMillis();
 	}
 
-	private record Entry(String value, int ttl, ZonedDateTime timestamp) {}
+	private record Entry(String value, int ttl, long timestamp) {}
 
 }
