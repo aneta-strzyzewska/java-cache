@@ -32,4 +32,12 @@ public class MemoryCacheTest {
 		assertFalse(value.isPresent());
 	}
 
+	@Test
+	void cacheAlreadySetTest() {
+		cache.set("key", "value1");
+		Optional<String> value = cache.set("key", "value2");
+		assertTrue(value.isPresent());
+		assertEquals("value1", value.get());
+	}
+
 }
