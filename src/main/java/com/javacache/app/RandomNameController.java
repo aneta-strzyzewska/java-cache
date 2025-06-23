@@ -30,8 +30,7 @@ public class RandomNameController {
 		Optional<String> data = cache.get(key);
 		if(data.isEmpty()) {
 			String wordJson = proxy.getRandomWord();
-			cache.set(key, wordJson);
-			return wordJson;
+			return cache.set(key, wordJson).orElse(wordJson);
 		}
 		return data.get();
 	}
